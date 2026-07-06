@@ -1,0 +1,22 @@
+---
+- name: Install, start and enable httpd
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install httpd
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+
+    - name: Start and enable httpd
+      ansible.builtin.systemd_service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Deploy index.html
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h1>Welcome to httpd website</h1>
