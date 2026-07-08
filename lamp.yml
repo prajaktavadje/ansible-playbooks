@@ -1,0 +1,42 @@
+--- 
+- name: to install lamp
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: to install httpd
+    ansible.builtin.dnf:
+      name: httpd
+      state: present
+  - name: to mriadb105-server 
+    ansible.builtin.dnf:
+      name: mariadb105-server
+      state: present
+  - name: to install php
+    ansible.builtin.dnf:
+      name: php
+      state: present  
+  - name: to statr and enable httpd
+    ansible.builtin.systemd_service:
+      name: httpd
+      state: started
+      enabled: true
+  - name: to statr and enable maridb
+    ansible.builtin.systemd_service:
+      name: mariadb
+      state: started
+      enabled: true
+  - name: to statr and enable php
+    ansible.builtin.systemd_service:
+      name: php-fpm
+      state: started
+      enabled: true
+  - name: to deploy php file
+    ansible.builtin.copy:
+      dest: /var/www/html/file.php
+      content: |
+        <?php
+        phpinfo():
+        ?>    
+
+     
+       
